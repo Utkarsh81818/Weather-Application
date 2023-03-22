@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./Style.css";
 import WeatherCard from "../weather/WeatherCard";
+import axios from "axios";
+import "./Style.css";
 
 const Temp = () => {
   const [searchValue, setSearchValue] = useState("Lucknow");
@@ -9,14 +10,13 @@ const Temp = () => {
   const getWeatherInfo = async () => {
     try {
       let url = `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&units=metric&appid=fdd1ea6d0cb232affceeef08b4d7481b`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await axios.get(url);
 
-      const { temp, humidity, pressure } = data.main;
-      const { main: weathermood } = data.weather[0];
-      const { name } = data;
-      const { speed } = data.wind;
-      const { country, sunset } = data.sys;
+      const { temp, humidity, pressure } = data.data.main;
+      const { main: weathermood } = data.data.weather[0];
+      const { name } = data.data;
+      const { speed } = data.data.wind;
+      const { country, sunset } = data.data.sys;
 
       const myNewWeatherInfo = {
         temp,
